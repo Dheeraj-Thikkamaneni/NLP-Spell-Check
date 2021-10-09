@@ -54,32 +54,43 @@ def correct_spelling(word, text, word_probability):
     return [(w, word_probability[w]) for w in best_guesses]
 
 
-class SpellCheck():
-    def __init__(self):
-        
-        my_dict = enchant.Dict("en_US")
-        words = read_file('t5.txt') # not as same as above words list
-        unique_words = set(words)
-        word_count = Counter(words) # words_count is a dictionary, counts number of each word occurence and stores in dictionary, eg: 'the':613
-        total_word_count = float(sum(word_count.values())) # values return value in dictionary
-        word_probability = { word: word_count[word] / total_word_count for word in word_count.keys()} # dict comprehension, word stores each word probability
+my_dict = enchant.Dict("en_US")
+words = read_file("text.txt") # not as same as above words list
+unique_words = set(words)
+word_count = Counter(words) # words_count is a dictionary, counts number of each word occurence and stores in dictionary, eg: 'the':613
+total_word_count = float(sum(word_count.values())) # values return value in dictionary
+word_probability = { word: word_count[word] / total_word_count for word in word_count.keys()} # dict comprehension, word stores each word probability
 
-        
-        iwords = input("Enter a sentence: ").strip().lower().split()
-        print('\n')
-        
-        guesses = []
-        
-        for word in iwords:
 
-            guesses = correct_spelling(word, unique_words, word_probability)
-            #print(guesses)
-            if len(guesses) !=0:
-                print(word)
-                print("suggestions")
-                for w in guesses:
-                    if my_dict.check(w[0]):
-                        
-                        print(w[0]) # printing suggestions
-                    
-obj = SpellCheck()
+app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    return render_template("Dummy.html")
+
+@app.route('/', methods=['post'])
+def check():
+    text = request.form['takeinput']
+    iwords = text.strip().lower().split()
+    guesses = []
+    r = []
+
+    for word in iwords:
+        guesses = correct_spelling(word, unique_words, word_probability)   # guesses contain a word and its probability
+        if len(guesses) != 0:
+            cor_word, num = map(list, zip(*guesses))  # breaking guesses list to 2 lists
+            n = num.index(max(num))      # finding index of max probability
+            r.append(cor_word[n])
+        else:
+            r.append(word)
+
+        q = " "
+        q = q.join(r)
+
+    return render_template('Dummy.html', result=q)
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
