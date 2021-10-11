@@ -67,7 +67,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("Dummy.html")
+    return render_template("index.html")
 
 @app.route('/', methods=['post'])
 def check():
@@ -85,10 +85,10 @@ def check():
         else:
             r.append(word)
 
-        q = " "
-        q = q.join(r)
+        res = " "
+        res = res.join(r)
 
-    return render_template('Dummy.html', result=q)
+    return render_template('index.html', result=res)
 
 
 
