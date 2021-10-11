@@ -55,7 +55,7 @@ def correct_spelling(word, text, word_probability):
 
 
 my_dict = enchant.Dict("en_US")
-words = read_file("stext") # not as same as above words list
+words = read_file("text.txt") # not as same as above words list
 unique_words = set(words)
 word_count = Counter(words) # words_count is a dictionary, counts number of each word occurence and stores in dictionary, eg: 'the':613
 total_word_count = float(sum(word_count.values())) # values return value in dictionary
