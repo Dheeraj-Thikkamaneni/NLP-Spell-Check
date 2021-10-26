@@ -5,8 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>SpellChecker</title>
-
-       
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+        <link rel="stylesheet" href="style.css" >
+             
 		<style type="text/css">
 		body{
 		 background-image: url('https://static.vecteezy.com/system/resources/previews/000/602/518/original/vector-buildings-silhouette-cityscape-background-modern-architecture-urban-city-landscape.jpg');
@@ -19,6 +20,10 @@
 
     </head>
     <body >
+	     <div class="lang_switcher">		
+               <center> <button id="en" class="lang">ENGLISH</button>
+                <button id="ir" class="lang">Gaeilge</button></center>
+            </div>
         <div class="container">
             <div class="imagebg"></div>
             <div class="row " style="margin-top: 50px">
@@ -33,7 +38,7 @@
                             <div class="col-sm-12 form-group">
                              <label for="Input"> ENTER YOUR SENTANCE:</label>
 				              <form  method="POST">
-                                <textarea class="form-control" type="textarea" name="takeinput" id="Input" placeholder="" maxlength="6000" rows="20" required></textarea>
+                                <textarea class="form-control" type="textarea" name="takeinput" id="Input" placeholder="" maxlength="6000" rows="8" required></textarea>
 								<center><h1>  <p><input type = "submit" value = "Spell Check" /></p></h1></center>
 
                               </form>
