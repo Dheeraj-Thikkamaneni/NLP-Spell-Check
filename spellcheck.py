@@ -1,21 +1,19 @@
 import re  # Regular Expressions
-from collections import Counter
-from flask import Flask, render_template, request
 import string
+from collections import Counter
+import ast
+from flask import Flask, render_template, request
 
 
 def read_file(filename):
+    words = []
+    text = ""
     with open(filename, 'r', encoding='utf-8') as file:
-        text = file.readlines()
-        words = []
+        for line in file:
+            text += line
 
-        for line in text:
-            # RE for making a words list from file
-            words = words + re.findall(r'\w+', line.lower())
-
+    words = ast.literal_eval(text)
     return words
-
- # edit operations,    insert, delete, swap, replace
 
 
 def split(word):
@@ -62,7 +60,7 @@ def correct_spelling(word, text, word_probability):
     return [(w, word_probability[w]) for w in best_guesses]
 
 
-words = read_file("text.txt")  # not as same as above words list
+words = read_file("textbreakt51.txt")  # not as same as above words list
 unique_words = set(words)
 # words_count is a dictionary, counts number of each word occurence and stores in dictionary, eg: 'the':613
 word_count = Counter(words)
