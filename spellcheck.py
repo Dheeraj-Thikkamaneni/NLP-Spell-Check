@@ -96,7 +96,7 @@ def check():
 
             topfive = sorted(toporder, key=lambda x: x[1], reverse=True)[
                 :length]  # fiding top five suggestions
-
+            print(topfive)
             if len(topfive) != 0:
                 # breaking guesses list to 2 lists
                 cor_word, num = map(list, zip(*topfive))
@@ -107,7 +107,7 @@ def check():
             res = " "
             res = res.join(r)
 
-        return jsonify({'correct_words': res, 'top_suggestions': topfive})
+        return jsonify({'correct_words': res, 'top_suggestions': cor_word})
 
     return render_template('index.html')
 
