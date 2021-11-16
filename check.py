@@ -7,7 +7,9 @@ import enchant
 from flask import *
 from flask import render_template
 
-
+from textblob import TextBlob
+from gingerit.gingerit import GingerIt
+from autocorrect import Speller
 
 
 
