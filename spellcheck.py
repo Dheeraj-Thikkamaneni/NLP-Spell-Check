@@ -92,15 +92,12 @@ def check():
         if language == 'irish':
             unique_words = unique_words_irish
             word_probability = word_probability_irish
-        
-            print('in irish')
         elif language == 'english':
             unique_words = unique_words_english
             word_probability = word_probability_english
 
         for word in iwords:
             guesses = correct_spelling(word, unique_words, word_probability)
-            print('after guesses')
             toporder = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arrangoing suggestions in decreasing order
             length = len(toporder)
             if length > 5:
@@ -108,8 +105,7 @@ def check():
 
             topfive = sorted(toporder, key=lambda x: x[1], reverse=True)[:length]  # fiding top five suggestions
             if len(topfive) != 0:
-                # breaking guesses list to 2 lists
-                correct_word, num = map(list, zip(*topfive))
+                correct_word, num = map(list, zip(*topfive)) # breaking guesses list to 2 lists
                 r.append(correct_word[0])
             else:
                 r.append(word)
