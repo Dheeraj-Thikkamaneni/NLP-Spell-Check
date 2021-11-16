@@ -15,16 +15,25 @@
 		 background-size: cover;
 		 }
 		 </style>
+<link rel="stylesheet" href="css/main.css" type="text/css" />
+    <script src="C:\Users\VAMSHI KRISHNA REDDY\Desktop\multiple language\jquery.min.js"></script>
+    <script src="C:\Users\VAMSHI KRISHNA REDDY\Desktop\multiple language\main.js"></script>
 
 
 
     </head>
     <body >
+	            <div class="lang_switcher">
+				
+			    <div class="text-left">
+                <button id="en" class="lang">ENGLISH</button>
+                <button id="ir" class="lang">Gaeilge</button></div>
+            </div>
         <div class="container">
             <div class="imagebg"></div>
             <div class="row " style="margin-top: 50px">
                 <div class="col-md-6 col-md-offset-3 form-container">
-                   <center>  <font size="+7" color="black">  SPELL CHECKER</font>(TEAM 5)</center>
+                   <center >  <font size="+7" color="black" class='tr' key='heading'>  SPELL CHECKER</font>(TEAM 5)</center>
 
                     <form role="form" method="post" id="reused_form">
                         <div class="row">
@@ -32,10 +41,14 @@
                         </div>
                         <div class="row">
                             <div class="col-sm-12 form-group">
-                             <label for="Input"> ENTER YOUR SENTANCE:</label>
+                             <label for="Input" class='tr' size="+3" key='sent'> ENTER YOUR SENTANCE:</label>
 				              <form  method="POST">
-                                <textarea class="form-control" type="textarea" name="takeinput" id="Input" placeholder="" maxlength="6000" rows="8" required></textarea>
-								<center><h1>  <p><input type = "submit" value = "Spell Check" /></p></h1></center>
+                                <textarea class="form-control" type="textarea" name="takeinput" id="Input" placeholder="" maxlength="6000" rows="5" required></textarea>
+								<center><h1>  <p class = 'tr' key='spell'  size="+3"><input type = "submit" value = "Spell Check"  /></p></h1></center>
+								 <div class="col-sm-12 form-group">
+                                <label for="Output" class='tr' key='sugg' size="+3"> SUGGESTIONS:</label>
+                                <textarea class="form-control tr" key='sugg'type="textarea" size="+3" name="Output" id="Output" placeholder="" maxlength="6000" rows="5"></textarea>
+                            </div>
 
                               </form>
                             </div>
@@ -43,10 +56,10 @@
 
                         <div class="row">
                             <div class="col-sm-12 form-group">
-                                <label for="Output"> RESULT:</label>
-                                <textarea class="form-control" type="textarea" name="Output" id="Output" placeholder="" maxlength="6000" rows="8">{{result}}</textarea>
+                                <label for="Output" class='tr' key='res' size="+3"> RESULT:</label>
+                                <textarea class="form-control tr" key='reso'type="textarea" size="+3" name="Output" id="Output" placeholder="" maxlength="6000" rows="5">{{result}}</textarea>
                             </div>
-                        </div>
+                        </div> 
                     </form>
                 </div>
             </div>
