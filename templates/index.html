@@ -28,6 +28,10 @@
 
 
 .button {background-color: #008CBA;} /* Blue */
+.blue_color {
+  color: #008CBA;
+  font-size: 14px;
+}
 
     </style>
 </head>
@@ -55,29 +59,31 @@
 
                 <div class="row">
                     <div class="col-sm-12 form-group">
-                        <label for="Input" class='tr' size="+4" id='sent'> ENTER YOUR SENTANCE:</label>
+                        <label for="Input" class='tr' size="+3" id='sent'> ENTER YOUR SENTANCE:</label>
                         <form method="POST" id='form'>
                             <textarea class="form-control" type="textarea" name="takeinput" id="wrongwords"
-                                placeholder="" maxlength="5500" rows="6" required></textarea>
+                                placeholder="" maxlength="6000" rows="5" required></textarea>
                         </form>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-12 form-group">
-                        <label for="Output" class='tr' id='res' size="+4"> RESULT:-</label>
-                        <textarea class="form-control tr" key='reso' type="textarea" size="+4" name="Output" id="take"
-                            placeholder="" maxlength="5500" rows="6"></textarea>
+                        <label for="Output" class='tr' id='res' size="+3"> RESULT:</label>
+                        <textarea class="form-control tr" key='reso' type="textarea" size="+3" name="Output" id="take"
+                            placeholder="" maxlength="6000" rows="5"></textarea>
                     </div>
                 </div>
 
-                <input type="text" id='takes' required minlength="50" maxlength="55" size="72">
+          
 
+<input type="text" id='takes' required
+       minlength="50" maxlength="55" size="72" rows="3">
 
 
                 <form method="POST">
                     <select id="lang_select">
-                        <option id='none' value="Select language">Select Language</option>
+                        <option id='none' value="Select language"><span class="blue_color">Select Language</span></option>
                         <option id='lang1' value="irish">Irish</option>
                         <option id='lang2' value="english">English</option>
                     </select>
