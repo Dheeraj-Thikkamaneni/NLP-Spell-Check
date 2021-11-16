@@ -14,6 +14,21 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+.button {background-color: #008CBA;} /* Blue */
+
     </style>
 </head>
 
@@ -21,8 +36,8 @@
 
     <div class="lang_switcher">
         <center>
-            <button type="submit" name="lang" value="Irish" onclick="Irish()">Gaeilge</button>
-            <button type="submit" name="lang" value="English" onclick="English()">English</button>
+            <button type="submit" name="lang" class="button button" value="Irish" onclick="Irish()">Gaeilge</button>
+            <button type="submit" name="lang" class="button button" value="English" onclick="English()">English</button>
         </center>
     </div>
 
