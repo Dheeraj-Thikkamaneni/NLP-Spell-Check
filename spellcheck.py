@@ -64,8 +64,7 @@ words = read_file()
 unique_words = set(words)
 word_count = Counter(words)
 total_word_count = float(sum(word_count.values()))
-word_probability = {word: word_count[word] /
-                    total_word_count for word in word_count.keys()}
+word_probability = {word: word_count[word] / total_word_count for word in word_count.keys()}
 
 
 app = Flask(__name__)
@@ -88,14 +87,12 @@ def check():
 
         for word in iwords:
             guesses = correct_spelling(word, unique_words, word_probability)
-            toporder = sorted(guesses, key=lambda x: x[1], reverse=True)[
-                :len(guesses)]  # arrangoing suggestions in decreasing order
+            toporder = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arrangoing suggestions in decreasing order
             length = len(toporder)
             if length > 5:
                 length = 5
 
-            topfive = sorted(toporder, key=lambda x: x[1], reverse=True)[
-                :length]  # fiding top five suggestions
+            topfive = sorted(toporder, key=lambda x: x[1], reverse=True)[:length]  # fiding top five suggestions
             print(topfive)
             if len(topfive) != 0:
                 # breaking guesses list to 2 lists
@@ -103,6 +100,7 @@ def check():
                 r.append(cor_word[0])
             else:
                 r.append(word)
+                cor_word = ''
 
             res = " "
             res = res.join(r)
