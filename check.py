@@ -64,3 +64,56 @@ word_count = Counter(words) # words_count is a dictionary, counts number of each
 total_word_count = float(sum(word_count.values())) # values return value in dictionary
 word_probability = { word: word_count[word] / total_word_count for word in word_count.keys()} # dict comprehension, word stores each word probability
 
+app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    return render_template("final.html")
+
+@app.route('/', methods=['POST'])
+def check():
+    r=[]
+    if request.method == 'POST':
+        p=request.form.getlist('word')
+        if p[0]=='':
+            return ''
+        guesses=correct_spelling(p[0], unique_words, word_probability)
+        print(p[0])
+        #ctext=GingerIt().parse(p[0])
+        #print("ctext content: ",ctext)
+        #if ctext['result']==p[0]:
+         #   print("In Condition 1")
+          #  spell=Speller(lang="en")
+           # r.append(spell(p[0]))
+        #else:
+         #   r.append(ctext['result'])
+        if len(guesses) != 0:
+            print("In If")
+            d=len(guesses)
+            l=4
+            cor_word, num = map(list, zip(*guesses))  # breaking guesses list to 2 lists
+            while(d>0 and l>0):
+                n = num.index(max(num))      # finding index of max probability
+                print(cor_word[n])
+                r.append(cor_word[n])
+                cor_word.pop(n)
+                num.pop(n)
+                d=d-1
+                l=l-1
+                print(l,d)
+        else:
+            r.append(p[0])
+        res=""
+        x=""
+        for i in r:
+            print(i)
+            #res=res.join(i)
+            #print(res)
+            #res=res.join(" ")
+            x=x+i
+            x=x+" "
+        print(x)
+        return x
+        
+
