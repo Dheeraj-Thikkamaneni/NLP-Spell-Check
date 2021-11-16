@@ -13,9 +13,7 @@ def read_file_english():
             for line in file:
                 text += line
                 words_english += ast.literal_eval(text)
-
     return words_english
-
 
 def read_file_irish():
     words_irish = []
@@ -26,7 +24,6 @@ def read_file_irish():
             for line in file:
                 text += line
                 words_irish += ast.literal_eval(text)
-
     return words_irish
 
 def split(word):
@@ -60,11 +57,20 @@ def correct_spelling(word, text, word_probability):
     best_guesses = [w for w in suggestions if w in text]
     return [(w, word_probability[w]) for w in best_guesses]
 
-words = read_file()
-unique_words = set(words)
-word_count = Counter(words)
-total_word_count = float(sum(word_count.values()))
-word_probability = {word: word_count[word] / total_word_count for word in word_count.keys()}
+words_english = read_file_english()
+word_count_english = Counter(words_english)
+unique_words_english = set(words_english)
+total_word_count_english = float(sum(word_count_english.values()))
+word_probability_english = {word: word_count_english[word] / total_word_count_english for word in word_count_english.keys()}
+
+words_irish = read_file_irish()
+word_count_irish = Counter(words_irish)
+unique_words_irish = set(words_irish)
+total_word_count_irish = float(sum(word_count_irish.values()))
+word_probability_irish = {word: word_count_irish[word] / total_word_count_irish for word in word_count_irish.keys()}
+
+unique_words = unique_words_english
+word_probability = word_probability_english
 
 app = Flask(__name__)
 
