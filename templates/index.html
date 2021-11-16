@@ -8,8 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SpellChecker</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!--<link rel="stylesheet" href="style.css">-->
-
     <style type="text/css">
         body {
             background-image: url('https://static.vecteezy.com/system/resources/previews/000/602/518/original/vector-buildings-silhouette-cityscape-background-modern-architecture-urban-city-landscape.jpg');
@@ -17,36 +15,32 @@
             background-size: cover;
         }
     </style>
-
-    <!--link rel="stylesheet" href="css/main.css" type="text/css" />-->
-    <script src="C:\Users\tdhee\Downloads\jquery.min.js"></script>
-    <!--<script src="C:\Users\tdhee\Downloads\main.js"></script>-->
-    <!--<script src="jquery.min.js"></script>-->
-    <!--<script src="main.js"></script>-->
 </head>
 
 <body>
 
     <div class="lang_switcher">
-        <div size="+3" class="text-left">
-            <button id="en" size="+3" class="lang">ENGLISH</button>
-            <button id="ir" class="lang">Gaeilge</button>
-        </div>
+        <center>
+            <button type="submit" name="lang" value="Irish" onclick="Irish()">Gaeilge</button>
+            <button type="submit" name="lang" value="English" onclick="English()">English</button>
+        </center>
     </div>
+
+
 
     <div class="container">
         <div class="imagebg"></div>
         <div class="row " style="margin-top: 50px">
             <div class="col-md-6 col-md-offset-3 form-container">
                 <center>
-                    <font size="+7" color="black" class='tr' key='heading'> SPELL CHECKER</font>(TEAM 5)
+                    <font size="+7" color="black" class='tr' id='head'> SPELL CHECKER</font>(TEAM 5)
                 </center>
 
                 <div class="row"></div>
 
                 <div class="row">
                     <div class="col-sm-12 form-group">
-                        <label for="Input" class='tr' size="+3" key='sent'> ENTER YOUR SENTANCE:</label>
+                        <label for="Input" class='tr' size="+3" id='sent'> ENTER YOUR SENTANCE:</label>
                         <form method="POST" id='form'>
                             <textarea class="form-control" type="textarea" name="takeinput" id="wrongwords"
                                 placeholder="" maxlength="6000" rows="5" required></textarea>
@@ -56,7 +50,7 @@
 
                 <div class="row">
                     <div class="col-sm-12 form-group">
-                        <label for="Output" class='tr' key='res' size="+3"> RESULT:</label>
+                        <label for="Output" class='tr' id='res' size="+3"> RESULT:</label>
                         <textarea class="form-control tr" key='reso' type="textarea" size="+3" name="Output" id="take"
                             placeholder="" maxlength="6000" rows="5"></textarea>
                     </div>
@@ -64,47 +58,83 @@
 
                 <input type="text" id='takes'>
 
-                <div id=":rg" class="Am Al editable LW-avf tS-tW" hidefocus="true" aria-label="Message Body"
-                    g_editable="true" role="textbox" aria-multiline="true" contenteditable="true" tabindex="1"
-                    style="direction: ltr; min-height: 269px;" itacorner="6,7:1,1,0,0" spellcheck="false">
-                </div>
+
+
+                <form method="POST">
+                    <select id="lang_select">
+                        <option id='none' value="Select language">Select Language</option>
+                        <option id='lang1' value="irish">Irish</option>
+                        <option id='lang2' value="english">English</option>
+                    </select>
+                </form>
+
 
             </div>
         </div>
     </div>
 
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            var textInputElement = document.getElementById('wrongwords');
-            textInputElement.addEventListener("keydown", outputtext);
-
-            function outputtext(e) {
-                if (e.keyCode == 32) {
-                    var oldtext = textInputElement.value;
-                    $.ajax({
-                        data: {
-                            'wrongwords': oldtext,
-                        },
-                        type: 'POST',
-                        url: '/'
-                    })
-                        .done(function (data) {
-                            correct_text = data.correct_words;
-                            suggestions = data.top_suggestions;
-                        });
-
-                    document.getElementById('take').value = correct_text;
-                    document.getElementById('takes').value = suggestions;
-                }
-            };
-
-        });
-    </script>
-
 </body>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+    function Irish() {
+        document.getElementById("sent").innerHTML = "ENTER DO SENTENCE:";
+        document.getElementById("res").innerHTML = "TAIGHDE:";
+        document.getElementById("head").innerHTML = "SEICEÁIL SPELL";
+    }
+    function English() {
+        document.getElementById("sent").innerHTML = "ENTER YOUR SENTENCE:";
+        document.getElementById("res").innerHTML = "RESULT:";
+        document.getElementById("head").innerHTML = "SPELL CHECKER";
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var temp = 'english'
+        $('#lang_select').change(function () {
+            temp = $("option:selected").val();
+            /*$.ajax({
+                data: {
+                    'language': temp,
+                },
+                type: 'POST',
+                url: '/'
+            })*/
+        });
+
+
+
+        var textInputElement = document.getElementById('wrongwords');
+        textInputElement.addEventListener("keydown", outputtext);
+
+        function outputtext(e) {
+            if (e.keyCode == 32) {
+                var oldtext = textInputElement.value;
+                $.ajax({
+                    data: {
+                        'wrongwords': oldtext,
+                        'language': temp,
+                    },
+                    type: 'POST',
+                    url: '/'
+                })
+                    .done(function (data) {
+                        correct_text = data.correct_words;
+                        suggestions = data.top_suggestions;
+                    });
+
+                document.getElementById('take').value = correct_text;
+                document.getElementById('takes').value = suggestions;
+            }
+        };
+
+    });
+</script>
 
 </html>
