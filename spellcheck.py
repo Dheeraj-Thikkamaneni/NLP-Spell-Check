@@ -83,30 +83,42 @@ def check():
     if request.method == "POST":
         text = ''
         text = request.form['wrongwords']
-        iwords = text.strip().lower().split()
+        iwords = text.strip().split()
         guesses = []
         r = []
+
+        language = request.form['language']
+
+        if language == 'irish':
+            unique_words = unique_words_irish
+            word_probability = word_probability_irish
+        
+            print('in irish')
+        elif language == 'english':
+            unique_words = unique_words_english
+            word_probability = word_probability_english
+
         for word in iwords:
             guesses = correct_spelling(word, unique_words, word_probability)
-            toporder = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arranging suggestions in decreasing order
+            print('after guesses')
+            toporder = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arrangoing suggestions in decreasing order
             length = len(toporder)
             if length > 5:
                 length = 5
+
             topfive = sorted(toporder, key=lambda x: x[1], reverse=True)[:length]  # fiding top five suggestions
-            print(topfive)
-            
             if len(topfive) != 0:
                 # breaking guesses list to 2 lists
-                cor_word, num = map(list, zip(*topfive))
-                r.append(cor_word[0])
+                correct_word, num = map(list, zip(*topfive))
+                r.append(correct_word[0])
             else:
                 r.append(word)
-                cor_word = ''
+                correct_word = ''
 
             res = " "
             res = res.join(r)
 
-        return jsonify({'correct_words': res, 'top_suggestions': cor_word})
+        return jsonify({'correct_words': res, 'top_suggestions': correct_word})
 
     return render_template('index.html')
 
