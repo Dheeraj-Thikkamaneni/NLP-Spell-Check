@@ -23,11 +23,24 @@ body {
   filter: alpha(opacity=60);
 
 }
+
 .form-container
 {
 	
-	background-color: rgb(212, 194, 194);
-    box-shadow: 0 16px 24px 2px rgba(0,0,0,0.14), 0 20px 30px 5px rgba(0,0,0,0.12), 0 8px 10px -5px rgba(0,0,0,0.3);
-    border-radius: 20px;	
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+
+
+	
+		width: 50%;
+		height: 50%;
+		padding: 30px;
+		background: rgb(126, 126, 126);
+		border-radius: 4px;
+		box-shadow: 0 8px 16px rgba(0,0,0,.3);
+
+
+
+
 }
+
+
+
