@@ -57,50 +57,57 @@
                 </div>
 
 
-                <input type="text" id='takes'>
+                <input type="text" id='takes' required
+       minlength="50" maxlength="55" size="72" rows="3">
 
-                <div id=":rg" class="Am Al editable LW-avf tS-tW" hidefocus="true" aria-label="Message Body"
-                    g_editable="true" role="textbox" aria-multiline="true" contenteditable="true" tabindex="1"
-                    style="direction: ltr; min-height: 269px;" itacorner="6,7:1,1,0,0" spellcheck="false">
-                </div>
+
+                <form method="POST">
+                    <select id="lang_select">
+                        <option id='none' value="Select language">Select Language</option>
+                        <option id='lang1' value="irish">Irish</option>
+                        <option id='lang2' value="english">English</option>
+                    </select>
+                </form>
+
 
             </div>
         </div>
     </div>
 
 </body>
-    
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script type="text/javascript">
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+    function Irish() {
+        document.getElementById("sent").innerHTML = "ENTER DO SENTENCE:";
+        document.getElementById("res").innerHTML = "TAIGHDE:";
+        document.getElementById("head").innerHTML = "SEICEÁIL SPELL";
+    }
+    function English() {
+        document.getElementById("sent").innerHTML = "ENTER YOUR SENTENCE:";
+        document.getElementById("res").innerHTML = "RESULT:";
+        document.getElementById("head").innerHTML = "SPELL CHECKER";
+    }
+</script>
 
-        $(document).ready(function () {
-            var textInputElement = document.getElementById('wrongwords');
-            textInputElement.addEventListener("keydown", outputtext);
-  function outputtext(e) {
-                if (e.keyCode == 32) {
-                    var oldtext = textInputElement.value;
-                    $.ajax({
-                        data: {
-                            'wrongwords': oldtext,
-                        },
-                        type: 'POST',
-                        url: '/'
-                    })
-                        .done(function (data) {
-                            correct_text = data.correct_words;
-                            suggestions = data.top_suggestions;
-                        });
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-                    document.getElementById('take').value = correct_text;
-                    document.getElementById('takes').value = suggestions;
-                }
-            };
-          
+<script type="text/javascript">
 
+    $(document).ready(function () {
+        var temp = 'english'
+        $('#lang_select').change(function () {
+            temp = $("option:selected").val();
+            /*$.ajax({
+                data: {
+                    'language': temp,
+                },
+                type: 'POST',
+                url: '/'
+            })*/
         });
-    </script>
 
 
 </html>
