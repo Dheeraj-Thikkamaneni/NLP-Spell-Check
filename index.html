@@ -80,6 +80,12 @@
         document.getElementById("res").innerHTML = "RESULT:";
         document.getElementById("head").innerHTML = "SPELL CHECKER";
     }
+</script> 
+	<script type="text/javascript">
+    $(document).ready(function () {
+        var textInputElement = document.getElementById('wrongwords');
+        textInputElement.addEventListener("keydown", outputtext);
+ });
 </script>
 		
 </html>
