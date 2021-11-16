@@ -45,9 +45,9 @@
                     </div>
                 </div>
 
-                <div class="row">
+                 <div class="row">
                     <div class="col-sm-12 form-group">
-                        <label for="Output" class='tr' key='res' size="+3"> RESULT:</label>
+                        <label for="Output" class='tr' id='res' size="+3"> RESULT:</label>
                         <textarea class="form-control tr" key='reso' type="textarea" size="+3" name="Output" id="take"
                             placeholder="" maxlength="6000" rows="5"></textarea>
                     </div>
@@ -55,15 +55,20 @@
 
                 <input type="text" id='takes'>
 
-                <div id=":rg" class="Am Al editable LW-avf tS-tW" hidefocus="true" aria-label="Message Body"
-                    g_editable="true" role="textbox" aria-multiline="true" contenteditable="true" tabindex="1"
-                    style="direction: ltr; min-height: 269px;" itacorner="6,7:1,1,0,0" spellcheck="false">
-                </div>
+                 <form method="POST">
+                    <select id="lang_select">
+                        <option id='none' value="Select language">Select Language</option>
+                        <option id='lang1' value="irish">Irish</option>
+                        <option id='lang2' value="english">English</option>
+                    </select>
+                </form>
+
 
             </div>
         </div>
     </div>
 
+</body>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -96,6 +101,5 @@
         });
     </script>
 
-</body>
 
 </html>
