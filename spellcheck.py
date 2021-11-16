@@ -4,16 +4,30 @@ import string
 import ast
 from flask import Flask, jsonify, render_template, request
 
-def read_file():
-    words = []
+def read_file_english():
+    words_english = []
     for i in range(1, 15):
         with open('english_list_files\english_list_'+str(i)+'.txt', 'r', encoding='utf-8') as file:
             print(i)
             text = ''
             for line in file:
                 text += line
-                words += ast.literal_eval(text)
-    return words
+                words_english += ast.literal_eval(text)
+
+    return words_english
+
+
+def read_file_irish():
+    words_irish = []
+    for i in range(1, 627):
+        with open('irish_list_files\irish_list_'+str(i)+'.txt', 'r', encoding='utf-8') as file:
+            print(i)
+            text = ''
+            for line in file:
+                text += line
+                words_irish += ast.literal_eval(text)
+
+    return words_irish
 
 def split(word):
     return[(word[:i], word[i:]) for i in range(len(word) + 1)]
