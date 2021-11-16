@@ -85,34 +85,47 @@
 </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        $(document).ready(function () {
-            var textInputElement = document.getElementById('wrongwords');
-            textInputElement.addEventListener("keydown", outputtext);
-
-            function outputtext(e) {
-                if (e.keyCode == 32) {
-                    var oldtext = textInputElement.value;
-                    $.ajax({
-                        data: {
-                            'wrongwords': oldtext,
-                        },
-                        type: 'POST',
-                        url: '/'
-                    })
-                        .done(function (data) {
-                            correct_text = data.correct_words;
-                            suggestions = data.top_suggestions;
-                        });
-
-                    document.getElementById('take').value = correct_text;
-                    document.getElementById('takes').value = suggestions;
-                }
-            };
-
+    $(document).ready(function () {
+        var temp = 'english'
+        $('#lang_select').change(function () {
+            temp = $("option:selected").val();
+            /*$.ajax({
+                data: {
+                    'language': temp,
+                },
+                type: 'POST',
+                url: '/'
+            })*/
         });
-    </script>
 
 
+
+        var textInputElement = document.getElementById('wrongwords');
+        textInputElement.addEventListener("keydown", outputtext);
+
+        function outputtext(e) {
+            if (e.keyCode == 32) {
+                var oldtext = textInputElement.value;
+                $.ajax({
+                    data: {
+                        'wrongwords': oldtext,
+                        'language': temp,
+                    },
+                    type: 'POST',
+                    url: '/'
+                })
+                    .done(function (data) {
+                        correct_text = data.correct_words;
+                        suggestions = data.top_suggestions;
+                    });
+
+                document.getElementById('take').value = correct_text;
+                document.getElementById('takes').value = suggestions;
+            }
+        };
+
+    });
+</script>
 </html>
