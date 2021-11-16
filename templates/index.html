@@ -14,6 +14,25 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+.button {
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+
+.button {background-color: #008CBA;} /* Blue */
+.blue_color {
+  color: #008CBA;
+  font-size: 14px;
+}
+
     </style>
 </head>
 
@@ -21,8 +40,8 @@
 
     <div class="lang_switcher">
         <center>
-            <button type="submit" name="lang" value="Irish" onclick="Irish()">Gaeilge</button>
-            <button type="submit" name="lang" value="English" onclick="English()">English</button>
+            <button type="submit" name="lang" class="button button" value="Irish" onclick="Irish()">Gaeilge</button>
+            <button type="submit" name="lang" class="button button" value="English" onclick="English()">English</button>
         </center>
     </div>
 
@@ -56,13 +75,15 @@
                     </div>
                 </div>
 
-                <input type="text" id='takes'>
+          
 
+<input type="text" id='takes' required
+       minlength="50" maxlength="55" size="72" rows="3">
 
 
                 <form method="POST">
                     <select id="lang_select">
-                        <option id='none' value="Select language">Select Language</option>
+                        <option id='none' value="Select language"><span class="blue_color">Select Language</span></option>
                         <option id='lang1' value="irish">Irish</option>
                         <option id='lang2' value="english">English</option>
                     </select>
