@@ -44,13 +44,22 @@
             <button type="submit" name="lang" class="button button" value="English" onclick="English()">English</button>
         </center>
     </div>
-
+	<br>
+	<br>
+ 
 
 
     <div class="container">
         <div class="imagebg"></div>
         <div class="row " style="margin-top: 50px">
             <div class="col-md-6 col-md-offset-3 form-container">
+			<center><form method="POST">
+                    <select id="lang_select">
+                        <option id='none' value="Select language"><span class="blue_color">SELECT SPELLCHECK LANGUAGE</span></option>
+                        <option id='lang1' value="irish">Gaeilge</option>
+                        <option id='lang2' value="english">English</option>
+                    </select>
+                </form></center>
                 <center>
                     <font size="+7" color="black" class='tr' id='head'> SPELL CHECKER</font>(TEAM 5)
                 </center>
@@ -78,16 +87,10 @@
           
 
 <input type="text" id='takes' required
-       minlength="50" maxlength="55" size="72" rows="3">
+       minlength="50" maxlength="55" size="72" rows="20">
 
 
-                <form method="POST">
-                    <select id="lang_select">
-                        <option id='none' value="Select language"><span class="blue_color">Select Language</span></option>
-                        <option id='lang1' value="irish">Irish</option>
-                        <option id='lang2' value="english">English</option>
-                    </select>
-                </form>
+               
 
 
             </div>
@@ -101,11 +104,13 @@
 <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script>
     function Irish() {
+	     <!--document.getElementById("check").innerHTML = "SELECT SPELLCHECK LANGUAGE"; -->
         document.getElementById("sent").innerHTML = "ENTER DO SENTENCE:";
         document.getElementById("res").innerHTML = "TAIGHDE:";
         document.getElementById("head").innerHTML = "SEICEÁIL SPELL";
     }
     function English() {
+	    <!-- document.getElementById("check").innerHTML = "TEANGA SPELLCHECK SELECT";  -->
         document.getElementById("sent").innerHTML = "ENTER YOUR SENTENCE:";
         document.getElementById("res").innerHTML = "RESULT:";
         document.getElementById("head").innerHTML = "SPELL CHECKER";
@@ -120,7 +125,16 @@
         var temp = 'english'
         $('#lang_select').change(function () {
             temp = $("option:selected").val();
+            /*$.ajax({
+                data: {
+                    'language': temp,
+                },
+                type: 'POST',
+                url: '/'
+            })*/
         });
+
+
 
         var textInputElement = document.getElementById('wrongwords');
         textInputElement.addEventListener("keydown", outputtext);
