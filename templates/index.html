@@ -120,16 +120,7 @@
         var temp = 'english'
         $('#lang_select').change(function () {
             temp = $("option:selected").val();
-            /*$.ajax({
-                data: {
-                    'language': temp,
-                },
-                type: 'POST',
-                url: '/'
-            })*/
         });
-
-
 
         var textInputElement = document.getElementById('wrongwords');
         textInputElement.addEventListener("keydown", outputtext);
