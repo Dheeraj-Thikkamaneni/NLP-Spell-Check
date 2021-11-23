@@ -17,7 +17,6 @@ Our project currently runs only in localhost
 
 our algorithm uses Bayesian spelling correction approach
 An input text file(we used novels from project gutenberg) that idealy covers all words in english is read by the algorithm
-for more information on bayesian approach to spellcheck, click on the link below
-https://medium.com/@hellali.hamed/bayesian-inference-for-spelling-correction-6263b3d7755c
+
 
 PS: Our team is still working on the text file that ideally covers all the words in english for better results
