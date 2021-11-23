@@ -1,4 +1,3 @@
-import re  # Regular Expressions
 from collections import Counter
 import string
 import ast
@@ -111,7 +110,7 @@ def check():
 
             if flag==1 :
                 for i in range(0, length):
-                    if (toporder_guesses[i][1] > toporder_guesses[k][1]*1000): # | guesses[i][1]*1000 < guesses[word][1]):
+                    if (toporder_guesses[i][1] > toporder_guesses[k][1]*1000):
                         B.append(toporder_guesses[i])
                         
                 if B==[]:
@@ -138,7 +137,6 @@ def check():
                 res=res.join(r)    
 
         return jsonify({'correct_words': res, 'top_suggestions': B})
-
 
     return render_template('index.html')
 
