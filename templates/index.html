@@ -2,148 +2,229 @@
 
 <html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SpellChecker</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <style type="text/css">
-        body {
-            background-image: url('https://static.vecteezy.com/system/resources/previews/000/602/518/original/vector-buildings-silhouette-cityscape-background-modern-architecture-urban-city-landscape.jpg');
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
-        .button {
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
-        .button {background-color: #008CBA;} /* Blue */
-        .blue_color {
-            color: #008CBA;
-            font-size: 14px;
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="lang_switcher">
-        <center>
-            <button type="submit" name="lang" class="button button" value="Irish" onclick="Irish()">Gaeilge</button>
-            <button type="submit" name="lang" class="button button" value="English" onclick="English()">English</button>
-        </center>
-    </div>
-	<br>
-	<br>
-
-    <div class="container">
-        <div class="imagebg"></div>
-        <div class="row " style="margin-top: 50px">
-            <div class="col-md-6 col-md-offset-3 form-container">
-            
-			          <center>
-                    <form method="POST">
-                        <select id="lang_select">
-                            <option id='none' value="Select language"><span class="blue_color">SELECT SPELLCHECK LANGUAGE</span></option>
-                            <option id='lang1' value="irish">Gaeilge</option>
-                            <option id='lang2' value="english">English</option>
-                        </select>
-                    </form>
-                </center>
-            
-                <center>
-                     <font size="+7" color="black" class='tr' id='head'> SPELL CHECKER</font>(TEAM 5)
-                </center>
-            
-                <div class="row"></div>
-            
-                <div class="row">
-                    <div class="col-sm-12 form-group">
-                        <label for="Input" class='tr' size="+4" id='sent'> ENTER YOUR SENTANCE:</label>
-                        <form method="POST" id='form'>
-
-                            <textarea class="form-control" type="textarea" name="takeinput" id="wrongwords" placeholder="" spellcheck="false" maxlength="6000" rows="5" required></textarea>
-
-                        </form>
-                    </div>
-                </div>
-            
-                <div class="row">
-                    <div class="col-sm-12 form-group">
-                        <label for="Output" class='tr' id='res' size="+3"> RESULT:</label>
-                        <textarea class="form-control tr" key='reso' type="textarea" size="+3" name="Output" id="take" placeholder="" maxlength="6000" rows="5"></textarea>
-                    </div>
-                </div>
-             
-               <label for="Input" class='tr' size="+3" id='sugg'> SUGGESTIONS:</label>
-               <input type="text" id='takes' required minlength="50" maxlength="55" size="72" rows="20">
-            
-
-            </div>
-        </div>
-    </div>
-
-</body>
-
-
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-<script>
-    function Irish() {
-	//document.getElementById("check").innerHTML = "SELECT SPELLCHECK LANGUAGE";
-        document.getElementById("sent").innerHTML = "Iontráil d’abairt:";
-        document.getElementById("res").innerHTML = "TAIGHDE:";
-        document.getElementById("head").innerHTML = "SEICEÁIL SPELL";
-		document.getElementById("sugg").innerHTML = "MOLTAÍ:";
-    }
-    function English() {
-	 //document.getElementById("check").innerHTML = "TEANGA SPELLCHECK SELECT";
-        document.getElementById("sent").innerHTML = "ENTER YOUR SENTENCE:";
-        document.getElementById("res").innerHTML = "RESULT:";
-        document.getElementById("head").innerHTML = "SPELL CHECKER";
-		document.getElementById("sugg").innerHTML = "SUGGESTIONS:";
-    }
-</script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        var temp = 'english'
-        $('#lang_select').change(function () {
-            temp = $("option:selected").val();
-        });
-        var textInputElement = document.getElementById('wrongwords');
-        textInputElement.addEventListener("keydown", outputtext);
-        function outputtext(e) {
-            if (e.keyCode == 32) {
-                var oldtext = textInputElement.value;
-                $.ajax({
-                    data: {
-                        'wrongwords': oldtext,
-                        'language': temp,
-                    },
-                    type: 'POST',
-                    url: '/'
-                })
-                .done(function (data) {
-                    correct_text = data.correct_words;
-                    suggestions = data.top_suggestions;
-                    document.getElementById('wrongwords').value = correct_text+' ';
-                    document.getElementById('takes').value = suggestions;  
-                });      
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SpellChecker</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <style type="text/css">
+            body {
+                background-image: url('https://static.vecteezy.com/system/resources/previews/000/602/518/original/vector-buildings-silhouette-cityscape-background-modern-architecture-urban-city-landscape.jpg');
+                background-repeat: no-repeat;
+                background-size: cover;
             }
-        };
+            .button {
+                border: none;
+                color: white;
+                padding: 15px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                margin: 4px 2px;
+                cursor: pointer;
+            }
+            .button {background-color: #008CBA;} /* Blue */
+            .blue_color {
+                color: #008CBA;
+                font-size: 14px;
+            }
+            #Input {
+                background-color: white;
+                box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+                outline: none;
+                resize: none;
+                min-height: 350px;
+                min-width: 600px;
+                margin: 30px 0;
+            }
+        </style>
+    </head>
 
-    });
-</script>
+
+    <body >
+
+	<div class="lang_switcher">		
+	    <center>
+                <button name="irish" value="Irish" onclick="Irish()">Gaeilge</button>
+	        <button name="English" value="English" onclick="English()">English</button>
+            </center>
+        </div>
+
+        <div class="container">
+            <div class="imagebg"></div>
+            <div class="row " style="margin-top: 50px">
+                <div class="col-md-6 col-md-offset-3 form-container">
+
+                    <center>
+                        <form method="POST">
+                            <select id="lang_select">
+                                <option id='none' value="Select language"><span class="blue_color">SELECT SPELLCHECK LANGUAGE</span></option>
+                                <option id='lang1' value="irish">Gaeilge</option>
+                                <option id='lang2' value="english">English</option>
+                            </select>
+                        </form>
+                    </center>
+
+                    <center>
+                        <font size="+7" color="black" class='tr' id='head'> SPELL CHECKER</font>(TEAM 5)
+                    </center>
+
+                    <form role="form" method="POST" id="reused_form">
+                        <div class="row">
+                            <div class="col-sm-12 form-group">
+                                <label for="Input" id="sent"> ENTER YOUR SENTENCE:</label>
+				                <form method="POST">
+                                    <textarea class="form-control" type="textarea" name="takeinput" id="Input" placeholder="enter text here" maxlength="6000" rows="8" required></textarea>
+                                </form>
+                            </div>
+                        </div>
+                        <label for="Input" class='tr' size="+3" id='sugg'> SUGGESTIONS:</label>
+			<div id ="cont" style="align-content: center;flex: 1">
+			    <div><center>Suggestions</center></div>
+			    <div id="sug1" onclick="fun('1')"></div>
+			    <div id="sug2" onclick="fun('2')"></div>
+			    <div id="sug3" onclick="fun('3')"></div>
+			    <div id="sug4" onclick="fun('4')"></div>
+			    <div id="sug5" onclick="fun('5')"></div>
+			</div>
+                    </form>
+
+                </div>
+            </div>
+        </div> 
+
+    </body>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+     
+    <script>
+        var gbl;
+	function Irish() {
+	    //document.getElementById("check").innerHTML = "SELECT SPELLCHECK LANGUAGE";
+            document.getElementById("sent").innerHTML = "Iontráil d’abairt:";
+            document.getElementById("head").innerHTML = "SEICEÁIL SPELL";
+            document.getElementById("sugg").innerHTML = "MOLTAÍ:";
+        }
+        function English() {
+	    //document.getElementById("check").innerHTML = "TEANGA SPELLCHECK SELECT";
+            document.getElementById("sent").innerHTML = "ENTER YOUR SENTENCE:";
+            document.getElementById("head").innerHTML = "SPELL CHECKER";
+            document.getElementById("sugg").innerHTML = "SUGGESTIONS:";
+        }
+	</script>
+
+	<script>
+	    function fun(a) {
+	    	var x=document.getElementById("Input").value;
+	    	x=x.split(" ");
+	    	var r='';
+            
+	     	if(a=="1") {
+	    	    var p=document.getElementById("sug1").innerHTML;
+	    	    for(i in x) {
+	     	        if(x[i]==gbl) {
+	    	    	    r=r.concat(' ',p);
+	    	            r=r+" ";
+	    	    	}
+	    	        else {
+	                    r=r.concat(x[i],' ');
+	    	        }
+	    	    }
+	    	}
+            
+	    	else if(a=="2") {
+	    	    var p=document.getElementById("sug2").innerHTML;
+	   	    for(i in x) {
+	   	    	if(x[i]==gbl) {
+	   	    	    r=r+" ";
+	   	    	    r=r+p;
+	   	    	    r=r+" ";
+	   	        }
+	   	        else {
+           	    	    r=r+x[i];
+	    	    	    r=r+" ";
+		       }
+		}
+           
+		else if(a=="3"){ 
+		    var p=document.getElementById("sug3").innerHTML;
+		    for(i in x) {
+		    	if(x[i]==gbl) {
+		    	    r=r+" ";
+		    	    r=r+p;
+		     	    r=" ";
+		        }
+		     	else {
+		            r=r+x[i];
+		    	    r=r+" ";
+		        }
+		    }
+	        }
+		else if(a=="4") {
+		    var p=document.getElementById("sug4").innerHTML;
+		    for(i in x) {
+		    	if(x[i]==gbl) {
+		            r=r+" ";
+		     	    r=r+p;
+	                    r=r+" ";
+		        }
+		    	else {
+		    	    r=r+x[i];
+		    	    r=r+" ";
+		    	}
+		    }
+		}
+                
+		else if(a=="5") {
+		    var p=document.getElementById("sug5").innerHTML;
+		        for(i in x){
+		    	    if(i==gbl) {
+		    	    	r=r+p;
+		    	    }
+		    	    else {
+		    	        r=r+i;
+		    	    }
+		    }
+	        }
+                
+	        document.getElementById("Input").value=r;
+	        document.getElementById("cont").style.display = "none";
+	    }  
+	</script>
+
+	<script>
+	    $(document).ready(function() {
+                var temp = 'english'
+                $('#lang_select').change(function () {
+                    temp = $("option:selected").val();
+                });
+	        document.addEventListener("click", () => {
+	            var selectedText = window.getSelection().toString();
+                    gbl=selectedText;
+
+	            $.ajax({
+                    data: {
+                        'wrongwords':selectedText,
+                        'language': temp
+                    },
+                    type:'POST',
+		            url: '/'
+	            })
+	            .done(function(data) {
+                        var suggestions = data.final_suggestions;
+		    	var lis=suggestions.split(" ");
+		    	sug1.innerHTML=lis[0];
+		    	sug2.innerHTML=lis[1];
+		    	sug3.innerHTML=lis[2];
+		    	sug4.innerHTML=lis[3];
+		    	sug5.innerHTML=lis[4];
+                    });
+          
+ 	        });
+	    });
+	</script>
 
 </html>
