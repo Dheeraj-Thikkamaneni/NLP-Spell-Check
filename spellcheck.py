@@ -54,16 +54,16 @@ def correct_spelling(word, text, word_probability):
     return [(w, word_probability[w]) for w in best_guesses]
 
 words_english = read_file_english()
-word_count_english = Counter(words_english)
+each_word_count_english = Counter(words_english)
 unique_words_english = set(words_english)
-total_word_count_english = float(sum(word_count_english.values()))
-word_probability_english = {word: (word_count_english[word] / total_word_count_english)*1000000 for word in word_count_english.keys()}
+total_word_count_english = float(sum(each_word_count_english.values()))
+word_probability_english = {word: (each_word_count_english[word] / total_word_count_english)*1000000 for word in each_word_count_english.keys()}
 
 words_irish = read_file_irish()
-word_count_irish = Counter(words_irish)
+each_word_count_irish = Counter(words_irish)
 unique_words_irish = set(words_irish)
-total_word_count_irish = float(sum(word_count_irish.values()))
-word_probability_irish = {word: (word_count_irish[word] / total_word_count_irish)*1000000 for word in word_count_irish.keys()}
+total_word_count_irish = float(sum(each_word_count_irish.values()))
+word_probability_irish = {word: (each_word_count_irish[word] / total_word_count_irish)*1000000 for word in each_word_count_irish.keys()}
 
 unique_words = unique_words_english
 word_probability = word_probability_english
@@ -72,73 +72,75 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return render_template("dummy3.html")
 
 @app.route('/', methods=['GET', 'POST'])
+
 def check():
     if request.method == "POST":
-        text = ''
-        text = request.form['wrongwords']
-        iwords = text.strip().split()
+        word = ''
+        word = request.form['wrongwords']
         guesses = []
+        spellcheck_language = request.form['language']
 
-        language = request.form['language']
-
-        if language == 'irish':
+        if spellcheck_language == 'irish':
             unique_words = unique_words_irish
             word_probability = word_probability_irish
-        elif language == 'english':
+        elif spellcheck_language == 'english':
             unique_words = unique_words_english
             word_probability = word_probability_english
 
         r = []
 
-        for word in iwords:
-            guesses = correct_spelling(word, unique_words, word_probability)
-            toporder_guesses = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arrangoing suggestions in decreasing order
-            length = len(toporder_guesses)
-            
-            k = 0
-            flag = 0
-            for i in range(length):
-                if toporder_guesses[i][0] == word:
-                    k=i
-                    flag=1
-                    break
+        guesses = correct_spelling(word, unique_words, word_probability)
+        toporder_guesses = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arranging suggestions in decreasing probability order
+        length_of_guesses = len(toporder_guesses)
 
-            B=[]
+        k = 0
+        flag = 0
+        final_guesses = []
+        
+        for i in range(length_of_guesses):
+            if toporder_guesses[i][0] == word:
+                k=i
+                flag=1
+                break
 
-            if flag==1 :
-                for i in range(0, length):
-                    if (toporder_guesses[i][1] > toporder_guesses[k][1]*1000):
-                        B.append(toporder_guesses[i])
-                        
-                if B==[]:
-                    r.append(word) 
-                    res = " "
-                    res = res.join(r)
-                else:    
-                    correct_word, num = map(list, zip(*B)) # breaking guesses list to 2 lists
-                    r.append(correct_word[0])
-                    res = " "
-                    res = res.join(r)
-                    B = correct_word
-            
-            elif (flag==0 and len(guesses)!=0):
-                correct_word, num = map(list, zip(*toporder_guesses)) # breaking guesses list to 2 lists
-                r.append(correct_word[0])
-                res =" "
-                res = res.join(r)
-                B = correct_word
-
-            else:
-                r.append(word)
+        if flag==1 :
+            for i in range(0, length_of_guesses):
+                if (toporder_guesses[i][1] > toporder_guesses[k][1]*1000):
+                    final_guesses.append(toporder_guesses[i])
+            if final_guesses==[]:
+                r.append(word) 
                 res = " "
-                res=res.join(r)    
+                res = res.join(r)
+            else:    
+                correct_word, num = map(list, zip(*final_guesses)) # breaking guesses list to 2 lists
+                r.append(correct_word[0])
+                res = " "
+                res = res.join(r)
+                final_guesses = correct_word
 
-        return jsonify({'correct_words': res, 'top_suggestions': B})
+        elif (flag==0 and len(guesses)!=0):
+            correct_word, num = map(list, zip(*toporder_guesses)) # breaking guesses list to 2 lists
+            r.append(correct_word[0])
+            res = " "
+            res = res.join(r)
+            final_guesses = correct_word
 
-    return render_template('index.html')
+        else:
+            r.append(word)
+            res = " "
+            res = res.join(r)    
+
+        final_suggeestions = ""
+        for i in final_guesses:
+            final_suggeestions += i+" "
+        final_suggeestions = final_suggeestions.strip()
+
+        return jsonify({'correct_words': res, 'final_suggestions': final_suggeestions})
+
+    return render_template('dummy3.html')
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug = False)
