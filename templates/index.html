@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <style type="text/css">
             body {
-                background-image: url('https://static.vecteezy.com/system/resources/previews/000/602/518/original/vector-buildings-silhouette-cityscape-background-modern-architecture-urban-city-landscape.jpg');
+                background-image: url('https://eskipaper.com/images/blurred-background-1.jpg');
                 background-repeat: no-repeat;
                 background-size: cover;
             }
@@ -32,176 +32,244 @@
             }
             #Input {
                 background-color: white;
-                box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+                box-shadow: 3px 3px 3px 0px rgb(12, 12, 10);
+                border-radius: 15px 15px 15px;
                 outline: none;
                 resize: none;
-                min-height: 350px;
-                min-width: 600px;
+                width: 92%;
+                height: 650px;
+                padding: 12px 20px;
+                box-sizing: border-box;
                 margin: 30px 0;
+			}
+
+			.dropbtn {
+                background-color: #49afb6;
+                color: rgb(7, 7, 7);
+                padding: 0px;
+                font-size: 14px;
+                border: none;
             }
+
+            /* The container <div> - needed to position the dropdown content */
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            /* Dropdown Content (Hidden by Default) */
+           .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #4ba0af;
+                min-width: 93px;
+                box-shadow: 0px 0px 0px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+            /* Links inside the dropdown */
+            .dropdown-content a {
+                color: black;
+                padding: 0px 0px;
+                text-decoration: none;
+                display: block;
+            }
+
+            /* Change color of dropdown links on hover */
+            .dropdown-content a:hover {background-color: rgb(66, 139, 168);}
+
+            /* Show the dropdown menu on hover */
+            .dropdown:hover .dropdown-content {display: block;}
+
+            /* Change the background color of the dropdown button when the dropdown content is shown */
+            .dropdown:hover .dropbtn {background-color: #46a4c4;}
+			
         </style>
     </head>
 
 
-    <body >
-
-	<div class="lang_switcher">		
-	    <center>
-                <button name="irish" value="Irish" onclick="Irish()">Gaeilge</button>
-	        <button name="English" value="English" onclick="English()">English</button>
-            </center>
+    <body>
+        <br>
+        <br>
+        <div class="top">
+	    	<div class="dropdown">
+		        <button style="margin:1px;" class="dropbtn" id="page">Translate Page</button>
+			    <div class="dropdown-content">
+			        <a href="javascript:Irish();">Gaeilge</a>
+			        <a href="javascript:English();">English</a>
+			    </div>
+		    </div>
         </div>
 
-        <div class="container">
-            <div class="imagebg"></div>
-            <div class="row " style="margin-top: 50px">
-                <div class="col-md-6 col-md-offset-3 form-container">
-
-                    <center>
-                        <form method="POST">
-                            <select id="lang_select">
-                                <option id='none' value="Select language"><span class="blue_color">SELECT SPELLCHECK LANGUAGE</span></option>
-                                <option id='lang1' value="irish">Gaeilge</option>
-                                <option id='lang2' value="english">English</option>
-                            </select>
-                        </form>
-                    </center>
-
-                    <center>
-                        <font size="+7" color="black" class='tr' id='head'> SPELL CHECKER</font>(TEAM 5)
-                    </center>
-
-                    <form role="form" method="POST" id="reused_form">
-                        <div class="row">
-                            <div class="col-sm-12 form-group">
-                                <label for="Input" id="sent"> ENTER YOUR SENTENCE:</label>
-				                <form method="POST">
-                                    <textarea class="form-control" type="textarea" name="takeinput" id="Input" placeholder="enter text here" maxlength="6000" rows="8" required></textarea>
-                                </form>
-                            </div>
-                        </div>
-                        <label for="Input" class='tr' size="+3" id='sugg'> SUGGESTIONS:</label>
-			    <div><center>Suggestions</center></div>
-			    <div id="sug1" onclick="fun('1')"></div>
-			    <div id="sug2" onclick="fun('2')"></div>
-			    <div id="sug3" onclick="fun('3')"></div>
-			    <div id="sug4" onclick="fun('4')"></div>
-			    <div id="sug5" onclick="fun('5')"></div>
-                    </form>
-
-                </div>
+        <center>
+            <div class="top">
+                <form method="POST">
+                    <select id="lang_select" style="background-color: #49afb6">
+                        <option id='none' value="Select language" ><span class="blue_color" >SELECT SPELLCHECK LANGUAGE</span></option>
+                        <option id='lang1' value="irish">Gaeilge</option>
+                        <option id='lang2' value="english">English</option>
+                    </select>
+                </form>
             </div>
-        </div> 
+        </center>
+
+        <style>
+            .top{
+                float: left;
+            }
+        </style>
+
+        <br><br>
+
+        <label id="sent">TYPE BELLOW:</label> 
+        <form role="form" method="POST" id="reused_form">
+
+            <form method="POST">   
+                <div class="align">
+                    <textarea class="form-control"  type="textarea" name="takeinput" id="Input" oninput="countWord()" maxlength="6000" rows="8" cols="160" required ></textarea>
+                </div>
+            </form>
+            <p><h5 id="count">Word Count: </h6><span id="show">0</span></p>
+
+            <script>
+                function countWord() {
+                    var words = document.getElementById("Input").value;
+                    var count = 0;
+                    var split = words.split(' ');
+                    for (var i = 0; i < split.length; i++) {
+                        if (split[i] != "") {
+                            count += 1;
+                        }
+                    }
+                    document.getElementById("show").innerHTML = count;
+                }
+           </script>
+            <div class="align"> <label for="Input" class='tr' size="+3" id='sugg'> SUGGESTIONS:</label>
+            <div id="sug1" onclick="fun('1')"></div>
+            <div id="sug2" onclick="fun('2')"></div>
+            <div id="sug3" onclick="fun('3')"></div>
+            <div id="sug4" onclick="fun('4')"></div>
+            <div id="sug5" onclick="fun('5')"></div>
+
+        </form>
+        
+        <style>
+            .align{
+                float: left;
+            }
+        </style>
 
     </body>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
      
-    <script>
-        var gbl;
-	function Irish() {
-	    //document.getElementById("check").innerHTML = "SELECT SPELLCHECK LANGUAGE";
-            document.getElementById("sent").innerHTML = "Iontráil d’abairt:";
-            document.getElementById("head").innerHTML = "SEICEÁIL SPELL";
-            document.getElementById("sugg").innerHTML = "MOLTAÍ:";
+	<script>
+	    var gbl;
+	    function Irish() {
+        
+            document.getElementById("page").innerHTML = "Aistrigh Leathanach";
+            document.getElementById("sent").innerHTML = "CINEÁL BELLOW:";
+            document.getElementById("count").innerHTML = "Líon Focal:";
+		    document.getElementById("sugg").innerHTML = "MOLTAÍ:";
         }
         function English() {
-	    //document.getElementById("check").innerHTML = "TEANGA SPELLCHECK SELECT";
-            document.getElementById("sent").innerHTML = "ENTER YOUR SENTENCE:";
-            document.getElementById("head").innerHTML = "SPELL CHECKER";
-            document.getElementById("sugg").innerHTML = "SUGGESTIONS:";
+    
+            document.getElementById("page").innerHTML = "Translate Page";
+            document.getElementById("sent").innerHTML = "TYPE BELLOW:";
+            document.getElementById("count").innerHTML = "Word Count:";
+		    document.getElementById("sugg").innerHTML = "SUGGESTIONS:";
         }
 	</script>
 
-	<script>
-	    function fun(a) {
-	    	var x=document.getElementById("Input").value;
-	    	x=x.split(" ");
-	    	var r='';
-            
-	     	if(a=="1") {
-	    	    var p=document.getElementById("sug1").innerHTML;
-	    	    for(i in x) {
-	     	        if(x[i]==gbl) {
-	    	    	    r=r.concat(' ',p);
-	    	            r=r+" ";
-	    	    	}
-	    	        else {
-	                    r=r.concat(x[i],' ');
-	    	        }
-	    	    }
-	    	}
-            
-	    	else if(a=="2") {
-	    	    var p=document.getElementById("sug2").innerHTML;
-	   	    for(i in x) {
-	   	    	if(x[i]==gbl) {
-	   	    	    r=r+" ";
-	   	    	    r=r+p;
-	   	    	    r=r+" ";
-	   	        }
-	   	        else {
-           	    	    r=r+x[i];
-	    	    	    r=r+" ";
-		       }
-		}
-           
-		else if(a=="3"){ 
-		    var p=document.getElementById("sug3").innerHTML;
-		    for(i in x) {
-		    	if(x[i]==gbl) {
-		    	    r=r+" ";
-		    	    r=r+p;
-		     	    r=" ";
-		        }
-		     	else {
-		            r=r+x[i];
-		    	    r=r+" ";
-		        }
-		    }
-	        }
-		else if(a=="4") {
-		    var p=document.getElementById("sug4").innerHTML;
-		    for(i in x) {
-		    	if(x[i]==gbl) {
-		            r=r+" ";
-		     	    r=r+p;
-	                    r=r+" ";
-		        }
-		    	else {
-		    	    r=r+x[i];
-		    	    r=r+" ";
-		    	}
-		    }
-		}
-                
-		else if(a=="5") {
-		    var p=document.getElementById("sug5").innerHTML;
-		        for(i in x){
-		    	    if(i==gbl) {
-		    	    	r=r+p;
-		    	    }
-		    	    else {
-		    	        r=r+i;
-		    	    }
-		    }
-	        }
-                
-	        document.getElementById("Input").value=r;
-	        document.getElementById("cont").style.display = "none";
-	    }  
-	</script>
+    <script>
+		function fun(a) {
+			var x=document.getElementById("Input").value;
+			x=x.split(" ");
+			var r='';
 
-	<script>
+			if(a=="1") {
+			    var p=document.getElementById("sug1").innerHTML;
+			     for(i in x) {
+				    if(x[i]==gbl) {
+				    	r=r.concat(' ',p);
+				        r=r+" ";
+				    }
+				    else {
+					    r=r.concat(x[i],' ');
+				    }
+			    }
+			}
+
+			else if(a=="2") {
+				var p=document.getElementById("sug2").innerHTML;
+				for(i in x) {
+				    if(x[i]==gbl) {
+					    r=r+" ";
+					    r=r+p;
+					    r=r+" ";
+				    }
+				    else {
+					    r=r+x[i];
+					    r=r+" ";
+				    }
+			    }
+			}
+
+			else if(a=="3"){ 
+				var p=document.getElementById("sug3").innerHTML;
+				for(i in x) {
+				    if(x[i]==gbl) {
+					    r=r+" ";
+					    r=r+p;
+					    r=" ";
+				    }
+				    else {
+				        r=r+x[i];
+					    r=r+" ";
+				    }
+		 	    }
+			}
+			else if(a=="4") {
+				var p=document.getElementById("sug4").innerHTML;
+				for(i in x) {
+				    if(x[i]==gbl) {
+					    r=r+" ";
+					    r=r+p;
+					    r=r+" ";
+				    }
+				     else {
+					    r=r+x[i];
+					    r=r+" ";
+				    }
+			    }
+			}
+
+			else if(a=="5") {
+				var p=document.getElementById("sug5").innerHTML;
+				for(i in x){
+				    if(i==gbl) {
+					    r=r+p;
+				    }
+				     else {
+					    r=r+i;
+				    }
+			    }
+			}
+
+			document.getElementById("Input").value=r;
+			document.getElementById("cont").style.display = "none";
+		}
+	
 	    $(document).ready(function() {
-                var temp = 'english'
-                $('#lang_select').change(function () {
-                    temp = $("option:selected").val();
-                });
+            var temp = 'english'
+            $('#lang_select').change(function () {
+                temp = $("option:selected").val();
+            });
 	        document.addEventListener("click", () => {
 	            var selectedText = window.getSelection().toString();
-                    gbl=selectedText;
+	            //var gbl=selectedText;
+                gbl=selectedText;
 
 	            $.ajax({
                     data: {
@@ -212,15 +280,15 @@
 		            url: '/'
 	            })
 	            .done(function(data) {
-                        var suggestions = data.final_suggestions;
-		    	var lis=suggestions.split(" ");
-		    	sug1.innerHTML=lis[0];
-		    	sug2.innerHTML=lis[1];
-		    	sug3.innerHTML=lis[2];
-		    	sug4.innerHTML=lis[3];
-		    	sug5.innerHTML=lis[4];
-                    });
-          
+                    var suggestions = data.final_suggestions;
+                    var red_flag = data.red_flag; // if red_flag == 1, then the word is wrong
+			        var lis=suggestions.split(" ");
+			        sug1.innerHTML=lis[0];
+			        sug2.innerHTML=lis[1];
+			        sug3.innerHTML=lis[2];
+			        sug4.innerHTML=lis[3];
+			        sug5.innerHTML=lis[4];
+                });
  	        });
 	    });
 	</script>
