@@ -92,13 +92,13 @@
         <br>
         <br>
         <div class="top">
-	    	<div class="dropdown">
+	    	  <div class="dropdown">
 		        <button style="margin:1px;" class="dropbtn" id="page">Translate Page</button>
-			 <div class="dropdown-content">
-			         <a href="javascript:Irish();">Gaeilge</a>
-			         <a href="javascript:English();">English</a>
-			 </div>
-		</div>
+			       <div class="dropdown-content">
+			          <a href="javascript:Irish();">Gaeilge</a>
+			          <a href="javascript:English();">English</a>
+			       </div>
+		       </div>
         </div>
 
         <center>
@@ -121,7 +121,7 @@
 
         <br><br>
 
-        <label id="sent">TYPE BELLOW:</label> 
+        <label id="sent">TYPE BELOW:</label> 
         <form role="form" method="POST" id="reused_form">
 
             <form method="POST">   
@@ -144,7 +144,7 @@
                     document.getElementById("show").innerHTML = count;
                 }
            </script>
-	    
+
             <div class="align"> <label for="Input" class='tr' size="+3" id='sugg'> SUGGESTIONS:</label>
             <div id="sug1" onclick="fun('1')"></div>
             <div id="sug2" onclick="fun('2')"></div>
@@ -168,21 +168,20 @@
 	<script>
 	    var gbl;
 	    function Irish() {
-                    document.getElementById("page").innerHTML = "Aistrigh Leathanach";
-                    document.getElementById("sent").innerHTML = "CINEÁL BELLOW:";
-                    document.getElementById("count").innerHTML = "Líon Focal:";
-	    	    document.getElementById("sugg").innerHTML = "MOLTAÍ:";
-            }
-            function English() {
-    
-                    document.getElementById("page").innerHTML = "Translate Page";
-                    document.getElementById("sent").innerHTML = "TYPE BELLOW:";
-                    document.getElementById("count").innerHTML = "Word Count:";
-		    document.getElementById("sugg").innerHTML = "SUGGESTIONS:";
-            }
+            document.getElementById("page").innerHTML = "Aistrigh Leathanach";
+            document.getElementById("sent").innerHTML = "CINEÁL ISTEACH:";
+            document.getElementById("count").innerHTML = "Líon Focal:";
+		        document.getElementById("sugg").innerHTML = "MOLTAÍ:";
+        }
+        function English() {
+            document.getElementById("page").innerHTML = "Translate Page";
+            document.getElementById("sent").innerHTML = "TYPE BELOW:";
+            document.getElementById("count").innerHTML = "Word Count:";
+		        document.getElementById("sugg").innerHTML = "SUGGESTIONS:";
+        }
 	</script>
 
-        <script>
+    <script>
 		function fun(a) {
 			var x=document.getElementById("Input").value;
 			x=x.split(" ");
@@ -261,36 +260,36 @@
 			document.getElementById("cont").style.display = "none";
 		}
 	
-	        $(document).ready(function() {
-                var temp = 'english'
-                $('#lang_select').change(function () {
-                        temp = $("option:selected").val();
-                });
-	        document.addEventListener("click", () => {
+	   $(document).ready(function() {
+            var temp = 'english'
+            $('#lang_select').change(function () {
+                temp = $("option:selected").val();
+            });
+	          document.addEventListener("click", () => {
 	            var selectedText = window.getSelection().toString();
 	            //var gbl=selectedText;
-                    gbl=selectedText;
-
-	            $.ajax({
+                gbl=selectedText;
+            
+	              $.ajax({
                     data: {
                         'wrongwords':selectedText,
                         'language': temp
                     },
                     type:'POST',
-		            url: '/'
-	            })
-	            .done(function(data) {
-                           var suggestions = data.final_suggestions;
-                           var red_flag = data.red_flag; // if red_flag == 1, then the word is wrong
-		     	   var lis=suggestions.split(" ");
-		     	   sug1.innerHTML=lis[0];
-		     	   sug2.innerHTML=lis[1];
-		     	   sug3.innerHTML=lis[2];
-		     	   sug4.innerHTML=lis[3];
-	                   sug5.innerHTML=lis[4];
-                    });
- 	        });
-	    });
+		                url: '/'
+	              })
+	              .done(function(data) {
+                    var suggestions = data.final_suggestions;
+                    var red_flag = data.red_flag; // if red_flag == 1, then the word is wrong
+			              var lis=suggestions.split(" ");
+			              sug1.innerHTML=lis[0];
+			              sug2.innerHTML=lis[1];
+			              sug3.innerHTML=lis[2];
+			              sug4.innerHTML=lis[3];
+			              sug5.innerHTML=lis[4];
+                });
+ 	          });
+	   });
 	</script>
 
 </html>
