@@ -72,7 +72,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template("dummy3.html")
+    return render_template("dummy2.html")
 
 @app.route('/', methods=['GET', 'POST'])
 
@@ -98,6 +98,7 @@ def check():
 
         k = 0
         flag = 0
+        red_flag = 0 # if red_flag = 1 in below code, then the word should be marked as wrong in JS,
         final_guesses = []
         
         for i in range(length_of_guesses):
@@ -115,6 +116,7 @@ def check():
                 res = " "
                 res = res.join(r)
             else:    
+                red_flag = 1
                 correct_word, num = map(list, zip(*final_guesses)) # breaking guesses list to 2 lists
                 r.append(correct_word[0])
                 res = " "
@@ -122,6 +124,7 @@ def check():
                 final_guesses = correct_word
 
         elif (flag==0 and len(guesses)!=0):
+            red_flag = 1
             correct_word, num = map(list, zip(*toporder_guesses)) # breaking guesses list to 2 lists
             r.append(correct_word[0])
             res = " "
@@ -138,9 +141,9 @@ def check():
             final_suggeestions += i+" "
         final_suggeestions = final_suggeestions.strip()
 
-        return jsonify({'correct_words': res, 'final_suggestions': final_suggeestions})
+        return jsonify({'final_suggestions': final_suggeestions, 'red_flag': red_flag})
 
-    return render_template('dummy3.html')
+    return render_template('dummy2.html')
 
 if __name__ == '__main__':
     app.run(debug = False)
