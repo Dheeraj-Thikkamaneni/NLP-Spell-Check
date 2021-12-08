@@ -101,7 +101,6 @@ def check():
 
         k = 0
         flag = 0
-        red_flag = 0 # if red_flag = 1 in below code, then the word should be marked as wrong in JS,
         final_guesses = []
         
         for i in range(length_of_guesses):
@@ -114,37 +113,23 @@ def check():
             for i in range(0, length_of_guesses):
                 if (toporder_guesses[i][1] > toporder_guesses[k][1]*1000):
                     final_guesses.append(toporder_guesses[i])
-            if final_guesses==[]:
-                r.append(word) 
-                res = " "
-                res = res.join(r)
-            else:    
-                red_flag = 1
+            if final_guesses!=[]:
                 correct_word, num = map(list, zip(*final_guesses)) # breaking guesses list to 2 lists
-                r.append(correct_word[0])
-                res = " "
-                res = res.join(r)
                 final_guesses = correct_word
 
         elif (flag==0 and len(guesses)!=0):
-            red_flag = 1
             correct_word, num = map(list, zip(*toporder_guesses)) # breaking guesses list to 2 lists
-            r.append(correct_word[0])
-            res = " "
-            res = res.join(r)
             final_guesses = correct_word
 
         else:
-            r.append(word)
-            res = " "
-            res = res.join(r)    
-
+            final_guesses=[]
+            
         final_suggeestions = ""
         for i in final_guesses:
             final_suggeestions += i+" "
         final_suggeestions = final_suggeestions.strip()
 
-        return jsonify({'final_suggestions': final_suggeestions, 'red_flag': red_flag})
+        return jsonify({'final_suggestions': final_suggeestions})
 
     return render_template('index.html')
 
