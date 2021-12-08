@@ -14,16 +14,16 @@ def read_file_english():
                 words_english += ast.literal_eval(text)
     return words_english
 
-def read_file_irish():
-    words_irish = []
-    for i in range(1, 528):
-        with open('irish_list_files/irish_list_'+str(i)+'.txt', 'r', encoding='utf-8') as file:
-            print(i)
-            text = ''
-            for line in file:
-                text += line
-                words_irish += ast.literal_eval(text)
-    return words_irish
+#def read_file_irish():
+#    words_irish = []
+#    for i in range(1, 528):
+#        with open('irish_list_files/irish_list_'+str(i)+'.txt', 'r', encoding='utf-8') as file:
+#            print(i)
+#            text = ''
+#            for line in file:
+#                text += line
+#                words_irish += ast.literal_eval(text)
+#    return words_irish
 
 def split(word):
     return[(word[:i], word[i:]) for i in range(len(word) + 1)]
@@ -59,11 +59,11 @@ unique_words_english = set(words_english)
 total_word_count_english = float(sum(each_word_count_english.values()))
 word_probability_english = {word: (each_word_count_english[word] / total_word_count_english)*1000000 for word in each_word_count_english.keys()}
 
-words_irish = read_file_irish()
-each_word_count_irish = Counter(words_irish)
-unique_words_irish = set(words_irish)
-total_word_count_irish = float(sum(each_word_count_irish.values()))
-word_probability_irish = {word: (each_word_count_irish[word] / total_word_count_irish)*1000000 for word in each_word_count_irish.keys()}
+#words_irish = read_file_irish()
+#each_word_count_irish = Counter(words_irish)
+#unique_words_irish = set(words_irish)
+#total_word_count_irish = float(sum(each_word_count_irish.values()))
+#word_probability_irish = {word: (each_word_count_irish[word] / total_word_count_irish)*1000000 for word in each_word_count_irish.keys()}
 
 unique_words = unique_words_english
 word_probability = word_probability_english
@@ -82,52 +82,55 @@ def check():
         word = word.strip().split()
         word = word[-1]
         guesses = []
-        r = []
 
+#        spellcheck_language = request.form['language']
 
-        language = request.form['language']
+#        if spellcheck_language == 'irish':
+#            unique_words = unique_words_irish
+#            word_probability = word_probability_irish
+#        elif spellcheck_language == 'english':
+#            unique_words = unique_words_english
+#            word_probability = word_probability_english
 
-        if language == 'irish':
-            unique_words = unique_words_irish
-            word_probability = word_probability_irish
-        elif language == 'english':
-            unique_words = unique_words_english
-            word_probability = word_probability_english
-
-        
-        guesses = correct_spelling(word, unique_words, word_probability)
-        toporder_guesses = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arranging suggestions in decreasing probability order
-        length_of_guesses = len(toporder_guesses)
-
-        k = 0
-        flag = 0
         final_guesses = []
-        
-        for i in range(length_of_guesses):
-            if toporder_guesses[i][0] == word:
-                k=i
-                flag=1
-                break
 
-        if flag==1 :
-            for i in range(0, length_of_guesses):
-                if (toporder_guesses[i][1] > toporder_guesses[k][1]*1000):
-                    final_guesses.append(toporder_guesses[i])
-            if final_guesses!=[]:
-                correct_word, num = map(list, zip(*final_guesses)) # breaking guesses list to 2 lists
+        if len(word)!=1:
+            guesses = correct_spelling(word, unique_words, word_probability)
+            toporder_guesses = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arranging suggestions in decreasing probability order
+            length_of_guesses = len(toporder_guesses)
+
+            k = 0
+            flag = 0
+        
+            for i in range(length_of_guesses):
+                if toporder_guesses[i][0] == word:
+                    k=i
+                    flag=1
+                    break
+
+            if flag==1 :
+                for i in range(0, length_of_guesses):
+                    if (toporder_guesses[i][1] > toporder_guesses[k][1]*1000):
+                        final_guesses.append(toporder_guesses[i])
+                if final_guesses!=[]:
+                    correct_word, num = map(list, zip(*final_guesses)) # breaking guesses list to 2 lists
+                    final_guesses = correct_word
+
+            elif (flag==0 and len(guesses)!=0):
+                correct_word, num = map(list, zip(*toporder_guesses)) # breaking guesses list to 2 lists
                 final_guesses = correct_word
 
-        elif (flag==0 and len(guesses)!=0):
-            correct_word, num = map(list, zip(*toporder_guesses)) # breaking guesses list to 2 lists
-            final_guesses = correct_word
+            else:
+                final_guesses=[]
 
         else:
-            final_guesses=[]
+            final_guesses=[]        
             
         final_suggeestions = ""
         for i in final_guesses:
             final_suggeestions += i+" "
         final_suggeestions = final_suggeestions.strip()
+        print(final_suggeestions)
 
         return jsonify({'final_suggestions': final_suggeestions})
 
