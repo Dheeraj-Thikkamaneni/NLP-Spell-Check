@@ -211,7 +211,6 @@
                 })
                 .done(function (data) {
                     final_suggestions = data.final_suggestions;
-                    var red_flag = data.red_flag; // if red_flag == 1, then the word is wrong
 			        var lis=final_suggestions.split(" ");
 			        sug1.innerHTML=lis[0];
 			        sug2.innerHTML=lis[1];
