@@ -87,7 +87,6 @@
         </style>
     </head>
 
-
     <body>
         <br>
         <br>
@@ -153,7 +152,7 @@
             <div id="sug5" onclick="fun('5')"></div>
 
         </form>
-        
+
         <style>
             .align{
                 float: left;
@@ -162,28 +161,76 @@
 
     </body>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-     
-	<script>
-	    var gbl;
-	    function Irish() {
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+<script>
+    var gbl;
+    function Irish() {
             document.getElementById("page").innerHTML = "Aistrigh Leathanach";
             document.getElementById("sent").innerHTML = "CINEÁL ISTEACH:";
             document.getElementById("count").innerHTML = "Líon Focal:";
-		        document.getElementById("sugg").innerHTML = "MOLTAÍ:";
+		    document.getElementById("sugg").innerHTML = "MOLTAÍ:";
         }
-        function English() {
-            document.getElementById("page").innerHTML = "Translate Page";
-            document.getElementById("sent").innerHTML = "TYPE BELOW:";
-            document.getElementById("count").innerHTML = "Word Count:";
-		        document.getElementById("sugg").innerHTML = "SUGGESTIONS:";
-        }
-	</script>
+    function English() {
+        document.getElementById("page").innerHTML = "Translate Page";
+        document.getElementById("sent").innerHTML = "TYPE BELOW:";
+        document.getElementById("count").innerHTML = "Word Count:";
+		document.getElementById("sugg").innerHTML = "SUGGESTIONS:";
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var temp = 'english'
+        $('#lang_select').change(function () {
+            temp = $("option:selected").val();
+        });
+
+        var textInputElement = document.getElementById('Input');
+        textInputElement.addEventListener("keydown", outputtext);
+
+        function outputtext(e) {
+            if (e.keyCode == 32) {
+                var wrongtext = document.getElementById('Input').value;
+                var wrongword = document.getElementById('Input').value;
+                wrongword = wrongword.trim();
+                wrongword = wrongword.split(" ");
+                gbl = wrongword.slice(-1);
+                
+                $.ajax({
+                    data: {
+                        'wrongwords': wrongtext,
+                        'language': temp,
+                    },
+                    type: 'POST',
+                    url: '/'
+                })
+                .done(function (data) {
+                    final_suggestions = data.final_suggestions;
+                    var red_flag = data.red_flag; // if red_flag == 1, then the word is wrong
+			        var lis=final_suggestions.split(" ");
+			        sug1.innerHTML=lis[0];
+			        sug2.innerHTML=lis[1];
+			        sug3.innerHTML=lis[2];
+			        sug4.innerHTML=lis[3];
+			        sug5.innerHTML=lis[4];
+                });
+            }
+        };
+
+    });
+</script>
+
+
 
     <script>
-		function fun(a) {
-			var x=document.getElementById("Input").value;
+        function fun(a) {
+		    var x=document.getElementById("Input").value;
+            x=x.trim();
 			x=x.split(" ");
 			var r='';
 
@@ -191,7 +238,7 @@
 			    var p=document.getElementById("sug1").innerHTML;
 			     for(i in x) {
 				    if(x[i]==gbl) {
-				    	r=r.concat(' ',p);
+				    	r=r.concat(p);
 				        r=r+" ";
 				    }
 				    else {
@@ -204,13 +251,11 @@
 				var p=document.getElementById("sug2").innerHTML;
 				for(i in x) {
 				    if(x[i]==gbl) {
-					    r=r+" ";
-					    r=r+p;
-					    r=r+" ";
+				    	r=r.concat(p);
+				        r=r+" ";
 				    }
 				    else {
-					    r=r+x[i];
-					    r=r+" ";
+					    r=r.concat(x[i],' ');
 				    }
 			    }
 			}
@@ -219,13 +264,11 @@
 				var p=document.getElementById("sug3").innerHTML;
 				for(i in x) {
 				    if(x[i]==gbl) {
-					    r=r+" ";
-					    r=r+p;
-					    r=" ";
+				    	r=r.concat(p);
+				        r=r+" ";
 				    }
 				    else {
-				        r=r+x[i];
-					    r=r+" ";
+					    r=r.concat(x[i],' ');
 				    }
 		 	    }
 			}
@@ -233,13 +276,11 @@
 				var p=document.getElementById("sug4").innerHTML;
 				for(i in x) {
 				    if(x[i]==gbl) {
-					    r=r+" ";
-					    r=r+p;
-					    r=r+" ";
+				    	r=r.concat(p);
+				        r=r+" ";
 				    }
-				     else {
-					    r=r+x[i];
-					    r=r+" ";
+				    else {
+					    r=r.concat(x[i],' ');
 				    }
 			    }
 			}
@@ -247,11 +288,12 @@
 			else if(a=="5") {
 				var p=document.getElementById("sug5").innerHTML;
 				for(i in x){
-				    if(i==gbl) {
-					    r=r+p;
+				    if(x[i]==gbl) {
+				    	r=r.concat(p);
+				        r=r+" ";
 				    }
-				     else {
-					    r=r+i;
+				    else {
+					    r=r.concat(x[i],' ');
 				    }
 			    }
 			}
@@ -259,37 +301,9 @@
 			document.getElementById("Input").value=r;
 			document.getElementById("cont").style.display = "none";
 		}
-	
-	   $(document).ready(function() {
-            var temp = 'english'
-            $('#lang_select').change(function () {
-                temp = $("option:selected").val();
-            });
-	          document.addEventListener("click", () => {
-	            var selectedText = window.getSelection().toString();
-	            //var gbl=selectedText;
-                gbl=selectedText;
-            
-	              $.ajax({
-                    data: {
-                        'wrongwords':selectedText,
-                        'language': temp
-                    },
-                    type:'POST',
-		                url: '/'
-	              })
-	              .done(function(data) {
-                    var suggestions = data.final_suggestions;
-                    var red_flag = data.red_flag; // if red_flag == 1, then the word is wrong
-			              var lis=suggestions.split(" ");
-			              sug1.innerHTML=lis[0];
-			              sug2.innerHTML=lis[1];
-			              sug3.innerHTML=lis[2];
-			              sug4.innerHTML=lis[3];
-			              sug5.innerHTML=lis[4];
-                });
- 	          });
-	   });
-	</script>
+    </script>
+
+
+
 
 </html>
