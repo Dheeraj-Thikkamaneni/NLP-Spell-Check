@@ -1,14 +1,11 @@
-import re  # Regular Expressions
 from collections import Counter
 import string
 import ast
-from flask import Flask, jsonify, render_template, request
-
 
 def read_file_irish():
     words_irish = []
-    for i in range(1, 627):
-        with open('irish_list_files\irish_list_'+str(i)+'.txt', 'r', encoding='utf-8') as file:
+    for i in range(1, 528):
+        with open('irish_list_files/irish_list_'+str(i)+'.txt', 'r', encoding='utf-8') as file:
             print(i)
             text = ''
             for line in file:
@@ -71,23 +68,59 @@ r = []
 
 count = 0
 for word in iwords:
-    guesses = correct_spelling(word, unique_words, word_probability)
-    toporder = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arrangoing suggestions in decreasing order
-    length = len(toporder)
-    if length > 5:
-        length = 5
+    res = any(chr.isdigit() for chr in word)
 
-    topfive = sorted(toporder, key=lambda x: x[1], reverse=True)[:length]  # fiding top five suggestions
-    if len(topfive) != 0:
-        correct_word, num = map(list, zip(*topfive)) # breaking guesses list to 2 lists
-        r.append(correct_word[0])
+    if (len(word)!=1) & (word!="\n") & (word!="…") & (not res):
+        guesses = correct_spelling(word, unique_words, word_probability)
+        toporder_guesses = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arranging suggestions in decreasing probability order
+        length_of_guesses = len(toporder_guesses)
+
+        k = 0
+        flag = 0
+        final_guesses = []
+        
+        for i in range(length_of_guesses):
+            if toporder_guesses[i][0] == word:
+                k=i
+                flag=1
+                break
+
+        if flag==1 :
+            for i in range(0, length_of_guesses):
+                if (toporder_guesses[i][1] > toporder_guesses[k][1]*1000):
+                    final_guesses.append(toporder_guesses[i])
+            if final_guesses==[]:
+                r.append(word) 
+                res = " "
+                res = res.join(r)
+            else:    
+                correct_word, num = map(list, zip(*final_guesses)) # breaking guesses list to 2 lists
+                r.append(correct_word[0])
+                res = " "
+                res = res.join(r)
+                final_guesses = correct_word
+
+        elif (flag==0 and len(guesses)!=0):
+            correct_word, num = map(list, zip(*toporder_guesses)) # breaking guesses list to 2 lists
+            r.append(correct_word[0])
+            res = " "
+            res = res.join(r)
+            final_guesses = correct_word
+
+        else:
+            r.append(word)
+            res = " "
+            res = res.join(r) 
     else:
         r.append(word)
-        correct_word = ''
+        res= " "
+        res = res.join(r)
 
-    res = " "
-    res = res.join(r)
-    print(count)
+
+    #res = " "
+    #res = res.join(r)
+        print(count)
+        count+=1
 #print(res)
 
 count = 0
@@ -102,4 +135,3 @@ print(letters)
 
 file = open('testcases.txt', 'a', encoding='utf-8')
 file.write(letters)
-        
