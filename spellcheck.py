@@ -16,7 +16,7 @@ def read_file_english():
 
 def read_file_irish():
     words_irish = []
-    for i in range(1, 627):
+    for i in range(1, 528):
         with open('irish_list_files/irish_list_'+str(i)+'.txt', 'r', encoding='utf-8') as file:
             print(i)
             text = ''
@@ -68,30 +68,33 @@ word_probability_irish = {word: (each_word_count_irish[word] / total_word_count_
 unique_words = unique_words_english
 word_probability = word_probability_english
 
-app = Flask(__name__)
+app = Flask(_name_)
 
 @app.route('/')
 def index():
-    return render_template("dummy2.html")
+    return render_template("index.html")
 
 @app.route('/', methods=['GET', 'POST'])
-
 def check():
     if request.method == "POST":
         word = ''
         word = request.form['wrongwords']
+        word = word.strip().split()
+        word = word[-1]
         guesses = []
-        spellcheck_language = request.form['language']
+        r = []
 
-        if spellcheck_language == 'irish':
+
+        language = request.form['language']
+
+        if language == 'irish':
             unique_words = unique_words_irish
             word_probability = word_probability_irish
-        elif spellcheck_language == 'english':
+        elif language == 'english':
             unique_words = unique_words_english
             word_probability = word_probability_english
 
-        r = []
-
+        
         guesses = correct_spelling(word, unique_words, word_probability)
         toporder_guesses = sorted(guesses, key=lambda x: x[1], reverse=True)[:len(guesses)]  # arranging suggestions in decreasing probability order
         length_of_guesses = len(toporder_guesses)
@@ -143,7 +146,7 @@ def check():
 
         return jsonify({'final_suggestions': final_suggeestions, 'red_flag': red_flag})
 
-    return render_template('dummy2.html')
+    return render_template('index.html')
 
-if __name__ == '__main__':
-    app.run(debug = False)
+if _name_ == '_main_':
+    app.run(debug=False)
