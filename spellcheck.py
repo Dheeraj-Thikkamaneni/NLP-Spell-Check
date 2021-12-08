@@ -68,7 +68,7 @@ word_probability_irish = {word: (each_word_count_irish[word] / total_word_count_
 unique_words = unique_words_english
 word_probability = word_probability_english
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 @app.route('/')
 def index():
@@ -148,5 +148,5 @@ def check():
 
     return render_template('index.html')
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     app.run(debug=False)
